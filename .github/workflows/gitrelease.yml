@@ -28,14 +28,16 @@ jobs:
           IFS='.' read maj min patch <<< "$version"
           patch=$((patch+1))
           new_tag="v$maj.$min.$patch"
-          echo "new_tag=$new_tag" >> $github_new
+          echo "new_tag=$new_tag" >> "$GITHUB_OUTPUT"
       - name: create tag
         run: |
-          git tag -a "$new_tag" -m "release $new_tag"
-          git push origin "$new_tag"
+          NEW_TAG="${{ steps.version.outputs.new_tag }}"
+          git tag -a "$NEW_TAG" -m "release $NEW_TAG"
+          git push origin "$NEW_TAG"
       - name: create new release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_TAG: ${{ steps.version.outputs.new_tag }}
         run: |
           gh release create "$NEW_TAG" \
             --title "$NEW_TAG" \
