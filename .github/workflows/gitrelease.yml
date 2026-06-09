@@ -37,6 +37,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$NEW_TAG" \
-            --title "$NEW_TAG" \
+          gh release create "$new_tag" \
+            --title "$new_tag" \
             --notes "automatic release"
