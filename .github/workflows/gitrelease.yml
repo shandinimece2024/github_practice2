@@ -28,7 +28,7 @@ jobs:
           IFS='.' read maj min patch <<< "$version"
           patch=$((patch+1))
           new_tag="v$maj.$min.$patch"
-          echo "new_tag=$new_tag" >> $github_new
+          echo "new_tag=$new_tag" >> $GITHUB_ENV
       - name: create tag
         run: |
           git tag -a "$new_tag" -m "release $new_tag"
